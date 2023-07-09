@@ -161,9 +161,12 @@ def detect(save_img=False):
         #print(f"Results saved to {save_dir}{s}")
 
     print(f'Done. ({time.time() - t0:.3f}s)')
-
+    
 
 if __name__ == '__main__':
+    if torch.cuda.is_available():
+        print(torch.cuda.current_device())
+    start_time = time.time()
     parser = argparse.ArgumentParser()
     parser.add_argument('--weights', nargs='+', type=str, default='yolov7.pt', help='model.pt path(s)')
     parser.add_argument('--source', type=str, default='inference/images', help='source')  # file/folder, 0 for webcam
@@ -194,3 +197,7 @@ if __name__ == '__main__':
                 strip_optimizer(opt.weights)
         else:
             detect()
+
+    end_time = time.time()
+    execution_time = end_time - start_time
+    print('Execution Time:', execution_time)
